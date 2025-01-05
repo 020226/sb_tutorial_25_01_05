@@ -1,5 +1,8 @@
 package com.sbs.tutorial1.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -101,4 +104,69 @@ public class HomeController {
     return map;
   }
 
+  @GetMapping("/home/returnArticle")
+  @ResponseBody
+  public Article showReturnArticle() {
+    Article article = new Article(1, "제목1", "내용1");
+
+    return article;
+  }
+
+  @GetMapping("/home/returnArticle2")
+  @ResponseBody
+  public Article showReturnArticle2() {
+    Article article = new Article(1, "제목1", "내용1");
+
+    return article;
+  }
 }
+
+  class Article {
+    private final int id; // final 상수처리: 수정을 잠근다
+    private final String subject;
+    private final String content;
+
+    // 게터, 세터로 데이터를 가져오기 때문에 필수적
+    public int getId() {
+      return id;
+    }
+
+    public String getSubject() {
+      return subject;
+    }
+
+    public String getContent() {
+      return content;
+    }
+
+    // @AllArgsConstructor과 같음
+    public Article(int id, String subject, String content) {
+      this.id = id;
+      this.subject = subject;
+      this.content = content;
+    }
+
+    @Override
+    public String toString() {
+      return "Article{" +
+          "id=" + id +
+          ", subject='" + subject + '\'' +
+          ", content='" + content + '\'' +
+          '}';
+    }
+  }
+
+  @AllArgsConstructor
+  @NoArgsConstructor // 비어있는 생성자 메서드
+  @Data
+  class Article2 {
+    int id; // final 상수처리: 수정을 잠근다
+    String subject;
+    String content;
+}
+
+// Map은 키, 값으로 데이터를 보내줘야 하는데
+// Map을 사용하지 않아도 스프링부트가 알아서 객체를 만들고 데이터를 넣어서 출력하면
+// 키, 값 형태로 보여준다
+// Map에 담는 것 = Article객체를 두 개 만들고 리스트에 담는 것이 동일함
+// return list하게 되면 주소값이 나오는 게 정상이지만 스프링부트는 알아서 스트링으로 보여줌
