@@ -2,6 +2,7 @@ package com.sbs.tutorial1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -28,10 +29,20 @@ public class HomeController {
   @GetMapping("/home/increase")
   @ResponseBody
   // 스프링부터에서 응답한 결과를 body에 보내줄 때는 모든 것이 문자열!
-  // 웹 브라우저는 무조건 String만 이해한다
+  // 웹 브라우저는 무조건 String만 이해한다 = 정수를 넘겨도 스트링으로 이해한다
   public int increase() {
     // int num = -1; // num이 지역변수라 실행할 때마다 초기화되고 다시 -1
     num++;
     return num;
+  }
+
+  // `/home/plus?a=1&b=2` 쿼리 파라미터, 쿼리 스트링
+  // 매개변수명과 쿼리 파라미터는 동일한 이름으로 사용해야 한다
+  @GetMapping("/home/plus")
+  @ResponseBody
+  public int plus(@RequestParam(defaultValue = "0") int a, int b) { // 매개변수를 써주면 스프링부트가 알아서 파라미터로 인식
+    // rq.getIntParam("a", 0); <- 스프링부트는 @RequestParam으로 해결, defaultValue는 무조건 문자열
+    // 현재 a만 defaultValue가 있고 b는 없는 상태. b는 생략 불가능
+    return a+b; // 문자열만 인식하는 스프링부트이지만 받아온 a,b를 알아서 정수로 인식
   }
 }
