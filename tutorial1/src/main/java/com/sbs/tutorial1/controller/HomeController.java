@@ -49,6 +49,8 @@ public class HomeController {
     return article;
   }
 
+  // 요청 : http://localhost:8080/home/addPerson?name=홍길동&age=11
+  // 응답 : 1번 사람이 추가되었습니다.
   @GetMapping("/home/addPerson")
   @ResponseBody
   public String addPerson(String name, int age) { // 응답결과가 문자열이기 때문에 String
@@ -80,6 +82,8 @@ public class HomeController {
     return "테스트 케이스 추가";
   }
 
+  // 요청 : http://localhost:8080/home/removePerson?id=2
+  //응답 : 2번 사람이 삭제되었습니다.
   @GetMapping("/home/removePerson")
   @ResponseBody
   public String removePerson(int id) { // 파라미터로 id를 넘겨서 삭제
@@ -109,44 +113,98 @@ public class HomeController {
     // 위 함수가 참인 요소가 존재하면, 해당 요소를 삭제한다.
     // 해당 함수의 삭제 결과는 true or false
     // 정상적으로 삭제가 이뤄지면 true 반환, 삭제를 실패하면 false 반환
-     boolean removed = people.removeIf(person -> person.getId() == id);
+    boolean removed = people.removeIf(person -> person.getId() == id);
 
-     if(!removed) {
-       return "%d번 사람이 존재하지 않습니다.".formatted(id);
-     }
+    if (!removed) {
+      return "%d번 사람이 존재하지 않습니다.".formatted(id);
+    }
 
     return "%d번 사람이 삭제되었습니다.".formatted(id);
   }
-}
 
-@NoArgsConstructor // 비어있는 생성자 메서드
-@AllArgsConstructor
-@Data
-class Article{
-  int id;
-  String subject;
-  String content;
-}
+  // 요청 : http://localhost:8080/home/modifyPerson?id=1&name=홍홍홍&age=44
+  // 응답 : 1번 사람이 수정되었습니다.
+  @GetMapping("/home/modifyPerson")
+  @ResponseBody
+  public String modifyPerson(int id, String name, int age) { // 파라미터를 3개 받음
 
-@AllArgsConstructor
-@Data // 게터, 세터, ToString
-// 쿼리 파라미터로 받은 사람 데이터를 담을 클래스가 필요함
-class Person{
-  private static int lastId; // lastId를 static으로 생성
-  private final int id; // 모든 객체는 고유의 아이디를 가지기 때문에 식별자가 필요하다
-  private final String name; // 수정할 일이 없는 정보이기 때문에 private final 붙이고
-  private final int age; // private는 게터, 세터가 필수! final은 생성자 메서드 필수!
 
-  static { // static 생성자
-    // static은 프로그램 실행 되지마자 딱 한 번 실행됨
-    lastId = 0; // lastId 세팅
+    /*Person target = null;
+
+    // 반복문 돌려서 리스트 안에서 id에 맞는 객체 찾아서 삭제
+    for (Person p : people) {
+      if (p.getId() == id) {
+        target = p;
+        break;
+      }
+    }
+
+    if (target == null) {
+      return "%d번 사람이 존재하지 않습니다.".formatted(id);
+    }
+
+    // System.out.println(target); // 객체 정보 잘 찾았나 확인
+
+    // /home/modifyPerson?id=1&name=홍홍홍&age=44
+    // 파라미터 입력한 값을 서버에 저장을 해줘야 수정이 됨
+    // person 클래스는 각 필드를 private로 접근을 제한하기 때문에
+    // 접근하기 위해 Setter가 필요!
+    // JSON 라이브러리가 Getter를 통해 데이터를 가져와서 화면에 띄워줌
+    // JSON -> 자바 오브젝트로 변환해야 한다
+    // 이때 필요한 것이 Setter
+    // Setter는 상수처리 = final을 풀어줘야 접근 가능
+    // id는 고유하기 때문에 final을 풀어줄 필요 없다
+
+
+     */
+
+    Person target = people.stream()
+            .filter(p -> p.getId() == id) // 해당 녀석이 참인 것만 필터링
+            .findFirst() // 찾은 것 중에 하나만 남는데, 그 하나 남은 것을 필터링
+            .orElse(null); // 없으면 null 리턴
+
+    if(target == null) {
+      return "%d번 사람이 존재하지 않습니다.".formatted(id);
+    }
+
+    target.setName(name);
+    target.setAge(age); // 수정 완료
+
+
+    return "%d번 사람이 수정되었습니다.".formatted(id);
+
+
   }
 
-  // 메서드 오버로딩
-  public Person(String name, int age) { // 데이터가 id, name, age 세 개이지만 두 개만 받는 생성자임
-  // 어떻게 id를 받아오나
-    this(lastId++, name, age); // 생성자 메서드 안에서 this는 자기 자신 생성자메서드
-    // this.id = id; 와 같은 것
-    // 이로써 객체가 생성될 때마다 id값이 1씩 증가됨
+  @NoArgsConstructor // 비어있는 생성자 메서드
+  @AllArgsConstructor
+  @Data
+  class Article {
+    int id;
+    String subject;
+    String content;
+  }
+
+  @AllArgsConstructor
+  @Data // 게터, 세터, ToString
+// 쿼리 파라미터로 받은 사람 데이터를 담을 클래스가 필요함
+  class Person {
+    private static int lastId; // lastId를 static으로 생성
+    private final int id; // 모든 객체는 고유의 아이디를 가지기 때문에 식별자가 필요하다
+    private String name; // 수정할 일이 없는 정보이기 때문에 private final 붙이고
+    private int age; // private는 게터, 세터가 필수! final은 생성자 메서드 필수!
+
+    static { // static 생성자
+      // static은 프로그램 실행 되지마자 딱 한 번 실행됨
+      lastId = 0; // lastId 세팅
+    }
+
+    // 메서드 오버로딩
+    public Person(String name, int age) { // 데이터가 id, name, age 세 개이지만 두 개만 받는 생성자임
+      // 어떻게 id를 받아오나
+      this(lastId++, name, age); // 생성자 메서드 안에서 this는 자기 자신 생성자메서드
+      // this.id = id; 와 같은 것
+      // 이로써 객체가 생성될 때마다 id값이 1씩 증가됨
+    }
   }
 }
