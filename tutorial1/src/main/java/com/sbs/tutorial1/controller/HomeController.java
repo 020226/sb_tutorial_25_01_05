@@ -68,6 +68,55 @@ public class HomeController {
   public List<Person> showPeople() {
     return people;
   }
+
+  // 테스트 케이스 생성
+  @GetMapping("/home/personTestcase")
+  @ResponseBody
+  public String personTestcase() {
+    people.add(new Person("홍길동", 11));
+    people.add(new Person("홍길순", 22));
+    people.add(new Person("임꺽정", 33));
+
+    return "테스트 케이스 추가";
+  }
+
+  @GetMapping("/home/removePerson")
+  @ResponseBody
+  public String removePerson(int id) { // 파라미터로 id를 넘겨서 삭제
+
+    /*
+    Person target = null;
+
+    // 반복문 돌려서 리스트 안에서 id에 맞는 객체 찾아서 삭제
+    for(Person p : people) {
+      if(p.getId() == id) {
+        target = p;
+        break;
+      }
+    }
+
+    if(target == null) {
+      return "%d번 사람이 존재하지 않습니다.".formatted(id);
+    }
+
+    // System.out.println(target); // 객체 정보 잘 찾았나 확인
+
+    people.remove(target);
+     */
+
+    // 스트림문법
+    // person.getId() == id
+    // 위 함수가 참인 요소가 존재하면, 해당 요소를 삭제한다.
+    // 해당 함수의 삭제 결과는 true or false
+    // 정상적으로 삭제가 이뤄지면 true 반환, 삭제를 실패하면 false 반환
+     boolean removed = people.removeIf(person -> person.getId() == id);
+
+     if(!removed) {
+       return "%d번 사람이 존재하지 않습니다.".formatted(id);
+     }
+
+    return "%d번 사람이 삭제되었습니다.".formatted(id);
+  }
 }
 
 @NoArgsConstructor // 비어있는 생성자 메서드
