@@ -1,5 +1,8 @@
 package com.sbs.tutorial1.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller // 이 클래스는 컨트롤러이고 웹 요청을 받아서 작업한다
@@ -70,6 +75,44 @@ public class HomeController {
   public List<Person> showPeople() {
     return people;
   }
+
+  // 쿠키 발행하기 실습
+  @GetMapping("/home/cookie/increase")
+  @ResponseBody
+  public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+    // HttpServletRequest req: 받은 편지
+    // HttpServletResponse resp: 보낼 편지
+    /* void
+    int age = Integer.parseInt(req.getParameter("age")); // ?를 기준으로 age값 넘겨주면 실제론 문자열인데 정수화하여 age에 넘겨줌
+    resp.getWriter().append("Hello, you are %d years old".formatted(age)); // jsp에서 사용했던 요청 보내면 Hello 보내줌
+    */
+
+    // void: `/home/cookie/increase` 요청 날리면 쿠키가 key, value 형태로 발행된다
+    // f12 눌러서 확인가능
+    // resp.addCookie(new Cookie("age", "15"));
+
+    // 쿠키를 가지고 브라우저를 구분하기 시작함
+    int countInCookie = 0;
+    if (req.getCookies() != null) { // null이 아니라는 것 = 쿠키가 이미 들어있다(쿠키가 발행되어 있음)
+      countInCookie = Arrays.stream(req.getCookies())
+          .filter(cookie -> cookie.getName().equals("count")) // 쿠키를 가져오는데 그 이름이 count
+          .map(cookie -> cookie.getValue()) // 쿠키의 value를 가져와라
+          .mapToInt(Integer::parseInt) // 가져올 때 형변환
+          .findAny() // 찾아서 가져오고
+          .orElse(0); // 없으면 0 반환
+    }
+
+
+    int newCountInCookie = countInCookie + 1;
+
+    // 쿠키 발행, countInCookie + 1 + ""은 받은 쿠키+1을 문자열로 변환해준 것
+    resp.addCookie(new Cookie("count", newCountInCookie + ""));
+
+
+    // 쿠폰이 올 때마다 도장 하나씩 찍어주는 구조
+    return newCountInCookie;
+  }
+
 
   // 테스트 케이스 생성
   @GetMapping("/home/personTestcase")
