@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+@Repository // 컴포넌트와 같다
 public class MemberRepository {
   List<Member> members;
 

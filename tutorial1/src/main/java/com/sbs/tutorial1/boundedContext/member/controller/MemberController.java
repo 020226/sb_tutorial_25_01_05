@@ -2,6 +2,7 @@ package com.sbs.tutorial1.boundedContext.member.controller;
 
 import com.sbs.tutorial1.base.rsData.RsData;
 import com.sbs.tutorial1.boundedContext.member.service.MemberService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,12 +11,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 // controller는 판단을 하지 않고 Service에 보내주는 역할
 // controller는 유효성 검사를 해주는 역할
 @Controller
+@AllArgsConstructor
 public class MemberController {
-  private final MemberService memberService;
+  private final MemberService memberService; // 생성자 주입 시 final 필수
 
-  public MemberController() {
-    memberService = new MemberService();
+  /* @AllArgsConstructor을 사용하면 생성자주입도 생략 가능
+  // 생성자 주입: 생상자를 만들어두고 생성자를 주입시키고 있음
+  // 생성자 주입의 경우 @Autowired 생략 가능
+  public MemberController(MemberService memberService) {
+    // 만들어진 멤버서비스를 연결만 시켜주면 됨. 만드는 것은 Ioc컨테이너에 의해.
+    this.memberService = memberService;
   }
+   */
 
   @GetMapping("/member/login")
   @ResponseBody

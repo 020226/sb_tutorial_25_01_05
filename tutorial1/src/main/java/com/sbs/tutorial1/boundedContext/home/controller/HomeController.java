@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,17 +19,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 @Controller // 이 클래스는 컨트롤러이고 웹 요청을 받아서 작업한다
 public class HomeController {
   int num;
   List<Person> people;
+
+  // 필드 주입
+  @Autowired // 알아서 MemberService 객체를 만들어 memberService와 연결시켜줌
   private MemberService memberService;
 
   public HomeController() {
     num = -1;
     people = new ArrayList<>();
 
-    memberService = new MemberService();
   }
 
   @GetMapping("/home/user1")
