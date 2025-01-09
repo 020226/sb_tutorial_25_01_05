@@ -32,12 +32,16 @@ public class MemberService {
     }
     else if(!username.equals("user1")){
     }
-
-    return RsData.of("S-1", "%s님 환영합니다.".formatted(username));
+    // 전에는 resultCode, msg만 넘겼는데 수정하여 member.getId()를 같이 넘기고 있다
+    return RsData.of("S-1", "%s님 환영합니다.".formatted(username), member.getId());
 
   }
 
   public Member findByUserName(String username) {
     return memberRepository.findByUserName(username); // 리포지터리에 username 달라고 요청
+  }
+
+  public Member findById(long id) {
+    return memberRepository.findById(id); // 리포지터리에 id 달라고 요청
   }
 }
