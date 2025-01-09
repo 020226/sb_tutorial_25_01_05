@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 // controller 만들면 제일 먼제 @Controller 붙이기
 // controller는 판단을 하지 않고 Service에 보내주는 역할
+// controller는 유효성 검사를 해주는 역할
 @Controller
 public class MemberController {
   private final MemberService memberService;
@@ -25,6 +26,14 @@ public class MemberController {
     }};
     이 코드 대신 아래 코드로 대체
     */
+
+    if(username == null || username.trim().isEmpty()){
+      return RsData.of("F-3", "username(을)를 입력해주세요.");
+    }
+
+    if(password == null || password.trim().isEmpty()){
+      return RsData.of("F-4", "password(을)를 입력해주세요.");
+    }
 
     return memberService.tryLogin(username, password);
 
