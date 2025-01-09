@@ -36,4 +36,8 @@ public class MemberService {
     return RsData.of("S-1", "%s님 환영합니다.".formatted(username));
 
   }
+
+  public Member findByUserName(String username) {
+    return memberRepository.findByUserName(username); // 리포지터리에 username 달라고 요청
+  }
 }
