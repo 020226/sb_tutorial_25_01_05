@@ -117,4 +117,8 @@ public class Rq {
   public boolean isLogout() {
     return !isLogined();
   }
+
+  public long getLoginedMember() {
+    return getSessionAsLong("loginedMemberId", 0); // member를 가져오기 위함
+  }
 }

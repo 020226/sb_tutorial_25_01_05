@@ -6,6 +6,7 @@ import com.sbs.tutorial1.boundedContext.member.dto.Member;
 import com.sbs.tutorial1.boundedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,22 +90,11 @@ public class MemberController {
 
     // 마이페이지 구현
   @GetMapping("/member/me")
-  @ResponseBody
-  public RsData showMe() {
+  public String showMe(Model model) {
+    long loginedMemberId = rq.getLoginedMember(); // 로그인된 회원의 세션 정보를 loginedMemberId에 담고
 
-
-    // loginedMemberId를 가져와야 됨
-    // "loginedMemberId"를 주면 가져오고 없으면 defaultValue 0
-    long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
-
-    boolean isLogined = loginedMemberId > 0;
-
-    if(!isLogined) {
-      return RsData.of("F-1", "로그인 후 이용해주세요.");
-    }
-
-    Member member = memberService.findById(loginedMemberId);
-
-    return RsData.of("S-1", "당신의 username(은)는 %s 입니다.".formatted(member.getUsername()));
+    Member member = memberService.findById(loginedMemberId); // loginedMemberId id를 주게 되면 찾아서 member에 주소값 넣어줌
+    model.addAttribute("member", member); // 속성 이름, 속성 값
+    return "usr/member/me";
   }
 }
