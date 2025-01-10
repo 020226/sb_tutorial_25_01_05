@@ -3,6 +3,7 @@ package com.sbs.tutorial1.base.rs;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -62,5 +63,47 @@ public class Rq {
         .map(Cookie::getValue) // .map(cookie -> cookie.getValue) 동일. cookie에서 값을 꺼내고
         .findFirst() // 그 중에서 첫 번째 가져와라
         .orElse(defaultValue);
+  }
+  private String getSessionAsStr(String name, String defaultValue) {
+    try {
+      //  session에서 name을 가져와서 문자화
+      String value = (String) req.getSession().getAttribute(name); // name으로 접근한 session 데이터 가져옴
+      // 형변환 하는 이유는 getAttribute 값이 Object 이기 때문
+
+      if(value == null) return defaultValue;
+
+      return value;
+    } catch (Exception e) {
+      return defaultValue;
+    }
+  }
+
+  public long getSessionAsLong(String name, long defaultValue) {
+    try {
+      long value = (long) req.getSession().getAttribute(name);
+
+      return value;
+    } catch (Exception e) {
+      return defaultValue;
+    }
+
+  }
+
+
+
+  public void setSession(String name, long value) {
+    HttpSession session = req.getSession();
+    session.setAttribute(name, value);
+  }
+
+  public boolean removeSession(String name) {
+    // session 객체를 가져오기 위해 외워야 함
+    HttpSession session = req.getSession();
+
+    // 세션을 가져왔는데 없으면 삭제를 못 했다는 의미
+    if(session.getAttribute(name) == null) return false; // name은 로그인 id.
+    session.removeAttribute(name);
+    return true;
+
   }
 }

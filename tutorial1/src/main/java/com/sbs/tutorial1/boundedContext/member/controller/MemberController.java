@@ -51,7 +51,8 @@ public class MemberController {
       Member member = (Member) rsData.getData();
       // long memberId = (long) rsData.getData(); // data는 Object이므로 형변환
       // resp.addCookie(new Cookie("loginedMemberId", memberId + "")); // 쿠키 발행
-      rq.setCookie("loginedMemberId", member.getId());
+      // rq.setCookie("loginedMemberId", member.getId());
+      rq.setSession("loginedMemberId", member.getId());
     }
 
     if (rsData.isFail()) {
@@ -70,7 +71,8 @@ public class MemberController {
   public RsData logout() {
 
     // 제거가 되면 true
-    boolean cookieRemoved = rq.removeCookie("loginedMemberId");
+    // removeCookie 대신 removeSession
+    boolean cookieRemoved = rq.removeSession("loginedMemberId");
 
     if(!cookieRemoved){
       return RsData.of("F-1", "이미 로그아웃 상태입니다.");
@@ -86,7 +88,7 @@ public class MemberController {
 
     // loginedMemberId를 가져와야 됨
     // "loginedMemberId"를 주면 가져오고 없으면 defaultValue 0
-    long loginedMemberId = rq.getCookieAsLong("loginedMemberId", 0);
+    long loginedMemberId = rq.getSessionAsLong("loginedMemberId", 0);
 
     boolean isLogined = loginedMemberId > 0;
 
