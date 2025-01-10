@@ -29,6 +29,28 @@ public class MemberController {
 
   @GetMapping("/member/login")
   @ResponseBody
+  public String showLogin() {
+    // 중복 로그인 방지
+    if(rq.isLogined()) {
+      return """
+             <h1>이미 로그인 되어있습니다.</h1>
+             """.stripIndent();
+
+    }
+
+    return """
+           <h1>로그인</h1>
+           <form action="/member/doLogin">
+            <input type="text" name="username" placeholder="아이디" />
+            <input type="password" name="password" placeholder="비밀번호" />
+            <button type="submit">로그인</button>
+           </form>
+                         
+           """;
+  }
+
+  @GetMapping("/member/doLogin")
+  @ResponseBody
   public RsData login(String username, String password) {
     /*Map<String, Object> rsData = new LinkedHashMap<>(){{
       put("ResultCode", "S-1");

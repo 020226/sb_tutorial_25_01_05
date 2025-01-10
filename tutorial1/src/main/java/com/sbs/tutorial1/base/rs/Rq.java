@@ -106,4 +106,15 @@ public class Rq {
     return true;
 
   }
+
+  // 로그인이 되었는지 확인
+  public boolean isLogined() {
+    // 세션에서 loginedMemberId으로 된 것이 있는지 확인
+    long loginedMemberId = getSessionAsLong("loginedMemberId", 0);
+    return loginedMemberId > 0;
+  }
+
+  public boolean isLogout() {
+    return !isLogined();
+  }
 }
