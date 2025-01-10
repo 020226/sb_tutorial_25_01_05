@@ -22,17 +22,16 @@ public class Rq {
   }
 
   public boolean removeCookie(String name) {
-    if (req.getCookies() != null) { // null이면 로그인이 안 되어 있는 것
-      Arrays.stream(req.getCookies())
-          .filter(cookie -> cookie.getName().equals(name)) // 쿠키 이름이 같은 것을 가져와서
-          .forEach(cookie -> {
-            cookie.setMaxAge(0); // 쿠키 수명을 0으로 = 쿠키 만료
-            resp.addCookie(cookie); // 만료된 쿠키를 보내줌
-          });
+    Cookie cookie = Arrays.stream(req.getCookies())
+        .filter(c -> c.getName().equals(name)) // 쿠키 이름이 같은 것을 가져와서
+        .findFirst() // 찾았으면 cookie 객체와 연결이 되고
+        .orElse(null);
 
-      // 위 코드로 쿠키를 만료시키고
-      // 만료시켰는데 이름이 있으면 true = 로그인이 되어 있는 상태, 이름이 없으면 false
-      return Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getName().equals(name));
+    if (cookie != null) {
+      cookie.setMaxAge(0); // 쿠키 만료 시킴
+      resp.addCookie(cookie);
+
+      return true; // 처리 했으면 true 넘겨줌
     }
     return false;
   }
