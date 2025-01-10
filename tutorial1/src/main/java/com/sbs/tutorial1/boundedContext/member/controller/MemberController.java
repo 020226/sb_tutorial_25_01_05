@@ -4,8 +4,6 @@ import com.sbs.tutorial1.base.rs.Rq;
 import com.sbs.tutorial1.base.rsData.RsData;
 import com.sbs.tutorial1.boundedContext.member.dto.Member;
 import com.sbs.tutorial1.boundedContext.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @AllArgsConstructor
 public class MemberController {
   private final MemberService memberService; // 생성자 주입 시 final 필수
+  private final Rq rq; // Rq rq = new Rq(req, resp); 를 지우고도 사용하는 방법
 
   /* @AllArgsConstructor을 사용하면 생성자주입도 생략 가능
   // 생성자 주입: 생상자를 만들어두고 생성자를 주입시키고 있음
@@ -30,8 +29,7 @@ public class MemberController {
 
   @GetMapping("/member/login")
   @ResponseBody
-  public RsData login(String username, String password, HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
+  public RsData login(String username, String password) {
     /*Map<String, Object> rsData = new LinkedHashMap<>(){{
       put("ResultCode", "S-1");
       put("msg", "%s님 환영합니다.".formatted(username));
@@ -65,8 +63,7 @@ public class MemberController {
 
   @GetMapping("/member/logout")
   @ResponseBody
-  public RsData logout(HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
+  public RsData logout() {
 
     // 제거가 되면 true
     boolean cookieRemoved = rq.removeCookie("loginedMemberId");
@@ -80,8 +77,7 @@ public class MemberController {
     // 마이페이지 구현
   @GetMapping("/member/me")
   @ResponseBody
-  public RsData showMe(HttpServletRequest req, HttpServletResponse resp) {
-    Rq rq = new Rq(req, resp);
+  public RsData showMe() {
 
 
     // loginedMemberId를 가져와야 됨
