@@ -54,6 +54,10 @@ public class MemberController {
       rq.setCookie("loginedMemberId", member.getId());
     }
 
+    if (rsData.isFail()) {
+      return RsData.of("F-5", "실패 테스트");
+    }
+
     return rsData;
 
     // RsData를 클래스로 만들면 매번 객체 만들어 of메서드 호출하는 것 대신

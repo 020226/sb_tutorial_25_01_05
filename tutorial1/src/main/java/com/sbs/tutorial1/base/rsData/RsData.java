@@ -31,4 +31,11 @@ public class RsData {
   public boolean isSuccess() {
     return resultCode.startsWith("S-"); // startsWith("S-"): S-로 시작하면
   }
+
+  // Jackson 규칙 is~메서드 -> 출력 결과가 is 없이 Fail로 나옴
+  public boolean isFail() {
+    return resultCode.startsWith("F-"); // startsWith("F-"): S-로 시작하면
+  }
+
+
 }
