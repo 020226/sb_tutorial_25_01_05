@@ -8,9 +8,13 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
         </processorPath>
-        <module name="tutorial1.tutorial1.main" />
+        <module name="tutorial1.tutorial1.main~1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tutorial1.tutorial1.main" target="17" />
+      <module name="tutorial1.tutorial1.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
