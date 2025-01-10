@@ -1,6 +1,6 @@
 package com.sbs.tutorial1.boundedContext.home.controller;
 
-import com.sbs.tutorial1.boundedContext.member.dto.Member;
+import com.sbs.tutorial1.boundedContext.member.entity.Member;
 import com.sbs.tutorial1.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

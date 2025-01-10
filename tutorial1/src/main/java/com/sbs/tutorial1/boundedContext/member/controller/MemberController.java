@@ -2,7 +2,7 @@ package com.sbs.tutorial1.boundedContext.member.controller;
 
 import com.sbs.tutorial1.base.rs.Rq;
 import com.sbs.tutorial1.base.rsData.RsData;
-import com.sbs.tutorial1.boundedContext.member.dto.Member;
+import com.sbs.tutorial1.boundedContext.member.entity.Member;
 import com.sbs.tutorial1.boundedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

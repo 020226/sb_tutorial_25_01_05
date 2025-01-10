@@ -1,6 +1,6 @@
 package com.sbs.tutorial1.boundedContext.member.repository;
 
-import com.sbs.tutorial1.boundedContext.member.dto.Member;
+import com.sbs.tutorial1.boundedContext.member.entity.Member;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

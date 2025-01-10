@@ -1,4 +1,4 @@
-package com.sbs.tutorial1.boundedContext.member.dto;
+package com.sbs.tutorial1.boundedContext.member.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

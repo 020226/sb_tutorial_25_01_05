@@ -1,7 +1,7 @@
 package com.sbs.tutorial1.boundedContext.member.service;
 
 import com.sbs.tutorial1.base.rsData.RsData;
-import com.sbs.tutorial1.boundedContext.member.dto.Member;
+import com.sbs.tutorial1.boundedContext.member.entity.Member;
 import com.sbs.tutorial1.boundedContext.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
