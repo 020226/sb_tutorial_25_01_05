@@ -7,6 +7,7 @@ import com.sbs.tutorial1.boundedContext.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 // controller 만들면 제일 먼제 @Controller 붙이기
@@ -33,7 +34,7 @@ public class MemberController {
     return "usr/member/login"; // templates 안에 있어야 함
   }
 
-  @GetMapping("/member/doLogin")
+  @PostMapping("/member/doLogin") // GET -> POST 변경
   @ResponseBody
   public RsData login(String username, String password) {
     /*Map<String, Object> rsData = new LinkedHashMap<>(){{
