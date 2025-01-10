@@ -3,6 +3,7 @@ package com.sbs.tutorial1.boundedContext.article.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,8 +12,9 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
+@Builder
 public class Article {
-  @Id // id 칼럼에 PRIMARY KEY 적용
+  @Id // primary key가 id 칼럼 적용
   @GeneratedValue(strategy = IDENTITY) // AUTO_INCREMENT
   private long id;
   private LocalDateTime createDate; // 데이터 생성 날짜
