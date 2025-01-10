@@ -33,7 +33,7 @@ public class MemberService {
     else if(!username.equals("user1")){
     }
     // 전에는 resultCode, msg만 넘겼는데 수정하여 member.getId()를 같이 넘기고 있다
-    return RsData.of("S-1", "%s님 환영합니다.".formatted(username), member.getId());
+    return RsData.of("S-1", "%s님 환영합니다.".formatted(username), member); // rq도입으로 member.getId() -> mebmer
 
   }
 
